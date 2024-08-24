@@ -11,7 +11,7 @@ Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèqu
 
 ## Prérequis
 
-- [Node.js version 16.6.0 ou supérieure](https://nodejs.org/fr)
+- [Node.js version 16.11.0 ou supérieure](https://nodejs.org/fr)
 - Un compte Discord et un serveur où le bot peut être ajouté
 - Un token Discord pour votre bot
 
