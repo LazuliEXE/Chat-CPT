@@ -27,9 +27,7 @@ Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèqu
 
 ## Utilisation
 
-1. Lancez un cmd dans le répertoire du bot
-
-2. Lancez le bot :
+1. Lancez le bot :
    ```bash
    node index.js
    ```
