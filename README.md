@@ -5,6 +5,9 @@ Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèqu
 ## Fonctionnalités
 
 - **Commande `/ping`** : Répond avec la lattence du bot
+- **Commande `/dice`** : Permet de faire rouler un dé de taille défini
+- **Commande `/purge`** : Permet de purger un salon
+- **Commande `/userInfo`** : Répond avec les informations d'un utilisateur
 
 ## Prérequis
 
