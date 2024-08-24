@@ -54,4 +54,18 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
+//Gestion des erreurs
+client.on('error', (error) => {
+    logger.error('Une erreur s\'est produite :', error);
+    const channel = client.channels.cache.get('ID_DU_CANAL');
+    if (channel) {
+        channel.send(`Une erreur s'est produite : ${error.message}`);
+    }
+});
+
+// Gestion des erreurs de promesse non gérée
+process.on('unhandledRejection', error => {
+    logger.error('Rejet de promesse non géré :', error);
+});
+
 client.login(process.env.DISCORD_TOKEN);
