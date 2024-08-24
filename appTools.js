@@ -124,16 +124,16 @@ function CreateLogger(){
             winston.format.printf(({ timestamp, level, message }) => `${timestamp} ${level}: ${message}`)
         ),
         transports: [
-            new winston.transports.File({ filename: 'combined.log', level: 'info' }),
-            
-            new winston.transports.File({ filename: 'interactions.log', level: 'info' }),
-            
-            new winston.transports.File({ filename: 'errors.log', level: 'error' }),
+            new winston.transports.File({ filename: 'logs/combined.log', level: 'info' }),
+                      
+            new winston.transports.File({ filename: 'logs/errors.log', level: 'error' }),
     
             new winston.transports.Console({
                 format: winston.format.combine(
                     winston.format.colorize(),
-                    winston.format.simple()
+                    winston.format.simple(),
+                    winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+
                 )
             })
         ]
