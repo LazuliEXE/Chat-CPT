@@ -1,0 +1,32 @@
+---
+name: Feature Request
+description: Request a feature or enhancement
+title: "[FEATURE]: type here a short description"
+labels: [enhancement, feature]
+
+body:
+- type: markdown
+  attributes:
+    value: |
+      ## Merci de nous aider à ameliorer ce jeu en remplissant ce questionnaire 
+- type: textarea
+  id: feat-description
+  attributes:
+    label: Descrpition de la fonctionnalité 
+    description: Veuillez fournir une description courte et concise de la fonctionnalité que vous suggérez.
+  validations:
+    required: true
+- type: textarea
+  id: use-case
+  attributes:
+    label: cas d'usage 
+    description: |
+      Quel cas d'utilisation (un scénario où vous voulez faire "x", mais êtes limité) faire
+       avez-vous pour demander cette fonctionnalité ?
+    placeholder: Ex.  Je voulais faire `x` mais je n'en étais pas capable non plus...
+- type: textarea
+  attributes:
+    label: Info additionnelles 
+    description: |
+      Y a-t-il des informations supplémentaires que vous souhaiteriez fournir ?
+    placeholder: Screenshots, logs, etc

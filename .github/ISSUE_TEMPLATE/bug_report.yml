@@ -1,0 +1,51 @@
+---
+name: Bug report
+description: Report un bug
+title: "[Bug]: "
+labels: [Bug]
+
+body:
+- type: markdown
+  attributes:
+    value: |
+      ## Merci de remplir cette page avec le plus d'informations possible
+- type: textarea
+  id: feat-description
+  attributes:
+    label: Descrpition du bug
+    description: Veuillez décrire de maniére courte et concise le bug que vous voulez report.
+  validations:
+    required: true
+- type: dropdown
+  id: Scope2
+  attributes:
+    label: fréquence du bug
+    description: Comment estimez vous la fréquence a laquelle apparais ce bug ?
+    multiple: true
+    options:
+      - Improbable
+      - Très peut fréquent
+      - Peut fréquent
+      - Fréquent
+      - Tres fréquent
+      - Systématique
+      - Autre
+  validations:
+      required: true
+- type: textarea
+  id: use-case
+  attributes:
+    label: Comment le reproduire
+    description: |
+      Décrivez au mieux les étapes pour reproduire ce bug
+- type: textarea
+  id: solution
+  attributes:
+    label: Comportement attendu
+    description: Mettez celon vous quel comportement serais attendu si le bug n'existait pas.
+- type: textarea
+  attributes:
+    label: Informations additionelles
+    description: |
+      Y as t'il d'autres informations que vous pouvez fournir ?
+    placeholder: Screenshots, logs, etc
