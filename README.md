@@ -4,9 +4,7 @@ Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèqu
 
 ## Fonctionnalités
 
-- **Commande `/ping`** : Répond avec "Pong!" pour vérifier si le bot est en ligne.
-- **Gestion des erreurs** : Capture les erreurs dans les commandes et les promesses non gérées, envoie des notifications d'erreur dans un canal Discord spécifié.
-- **Commande `!trigger-error`** : Déclenche intentionnellement une erreur pour tester le système de gestion des erreurs.
+- **Commande `/ping`** : Répond avec la lattence du bot
 
 ## Prérequis
 
