@@ -29,6 +29,24 @@ Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèqu
    ```bash
    node index.js
    ```
+## Modifications
+1. Ajouter une commande:
+   Créez un fichier dans le répertoire commands et ajoutez-y le code suivant :
+   
+   ```js
+   const { SlashCommandBuilder } = require('@discordjs/builders');
+   const { EmbedBuilder, Client, ClientApplication } = require('discord.js');
+
+   module.exports = {
+       data: new SlashCommandBuilder()
+           .setName('NOM DE LA COMMANDE')
+           .setDescription('DESCRIPTION DE LA COMMANDE'),
+       async execute(interaction) {
+       //Logique de la commande
+       },
+   };
+   ```
+Pour plus d'informations rendez-vous sur [la documentation de discord.js](https://discordjs.guide/creating-your-bot/command-handling.html#executing-commands)
 
 ## Contribuer
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou une pull request si vous avez des idées d'améliorations ou de nouvelles fonctionnalités.
