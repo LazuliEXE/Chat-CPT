@@ -35,17 +35,17 @@ Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèqu
    
    ```js
    const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder, Client, ClientApplication } = require('discord.js');
+   const { EmbedBuilder, Client, ClientApplication } = require('discord.js');
 
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('NOM DE LA COMMANDE')
-        .setDescription('DESCRIPTION DE LA COMMANDE'),
-    async execute(interaction) {
-    //Logique de la commande
-    },
-};
-```
+   module.exports = {
+       data: new SlashCommandBuilder()
+           .setName('NOM DE LA COMMANDE')
+           .setDescription('DESCRIPTION DE LA COMMANDE'),
+       async execute(interaction) {
+       //Logique de la commande
+       },
+   };
+   ```
 Pour plus d'informations rendez-vous sur [la documentation de discordjs](https://discordjs.guide/creating-your-bot/command-handling.html#executing-commands)
 
 ## Contribuer
