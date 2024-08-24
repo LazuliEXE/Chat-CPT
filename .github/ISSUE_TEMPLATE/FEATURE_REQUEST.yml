@@ -12,7 +12,7 @@ body:
 - type: textarea
   id: feat-description
   attributes:
-    label: Descrpition de la fonctionnalité 
+    label: Description de la fonctionnalité 
     description: Veuillez fournir une description courte et concise de la fonctionnalité que vous suggérez.
   validations:
     required: true
