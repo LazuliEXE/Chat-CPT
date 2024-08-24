@@ -46,7 +46,7 @@ Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèqu
        },
    };
    ```
-Pour plus d'informations rendez-vous sur [la documentation de discordjs](https://discordjs.guide/creating-your-bot/command-handling.html#executing-commands)
+Pour plus d'informations rendez-vous sur [la documentation de discord.js](https://discordjs.guide/creating-your-bot/command-handling.html#executing-commands)
 
 ## Contribuer
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou une pull request si vous avez des idées d'améliorations ou de nouvelles fonctionnalités.
