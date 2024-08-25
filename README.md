@@ -1,4 +1,4 @@
-# Chat CPT
+# Chat CPTT
 
 Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèque [discord.js](https://discord.js.org/). Le bot inclut des fonctionnalités de base telles qu'une commande ping, un système de gestion des erreurs pour capturer et gérer les exceptions, et autre.
 
