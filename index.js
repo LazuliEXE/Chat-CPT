@@ -34,6 +34,7 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
     logger.info(`Logged in as ${client.user.tag}!`);
+    appTools.loadRoleReactInteraction(client)
 });
 
 client.on('interactionCreate', async interaction => {

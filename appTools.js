@@ -114,6 +114,57 @@ function DeployCommands(){
 
 }
 
+function SaveInteraction(path,dataToSave){
+    let data = [];
+
+    if (fs.existsSync(path)) {
+        const fileData = fs.readFileSync(path);
+        data = JSON.parse(fileData);
+    }
+
+    data.push(dataToSave);
+
+    fs.writeFileSync(path, JSON.stringify(data, null, 2));
+}
+
+async function loadRoleReactInteraction(client){
+    if (fs.existsSync('data/roleReact.json')) {
+        const fileData = fs.readFileSync('data/roleReact.json');
+        data =  JSON.parse(fileData);
+    }else{
+        return
+    }
+    for (const roleReaction of data) {
+
+        const channel = await client.channels.fetch(roleReaction.channelId);
+
+        const filter = i => i.customId === roleReaction.customId;
+        const roleCollector = channel.createMessageComponentCollector({filter});
+
+        roleCollector.on('collect', async i => {
+
+            i.deferUpdate()
+            for (const roleId of roleReaction.roles){
+                const role = channel.guild.roles.cache.get(roleId);
+                
+                if(!role){
+                    console.error('pas de role');
+                    continue;
+                }
+                if(i.values.includes(role.id)){
+                    if (!i.member.roles.cache.has(role.id)) {
+                        await i.member.roles.add(role);
+                    }
+                }else{
+                    if (i.member.roles.cache.has(role.id)) {
+                        await i.member.roles.remove(role);
+                    }
+                }
+            }
+        })
+    }
+
+}
 
 function CreateLogger(){
 
@@ -141,4 +192,4 @@ function CreateLogger(){
     return logger;
 }
 
-module.exports = { DeployCommands ,CreateLogger ,DeployServerCommands ,DeleteAllCommands };
+module.exports = { DeployCommands ,CreateLogger ,DeployServerCommands ,DeleteAllCommands,SaveInteraction,loadRoleReactInteraction };

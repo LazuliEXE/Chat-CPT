@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, RoleSelectMenuBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, Client, ClientApplication, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require('discord.js');
+const appTools = require("../appTools");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -105,7 +106,14 @@ module.exports = {
                 publicMessage = await channel.send({ content: '', embeds: [embed],components:[replyRow]})
             }
             await i.deferUpdate()
-
+            const dataToSave = {
+                channelId: channel.id,
+                customId: 'rôles',
+                roles: i.values,
+                multiple: multiple
+            };
+            appTools.SaveInteraction('data/roleReact.json',dataToSave)
+            
             const filter = i => i.customId === 'rôles';
             const roleCollector = channel.createMessageComponentCollector({filter});
             roleCollector.on('collect', async i => {
