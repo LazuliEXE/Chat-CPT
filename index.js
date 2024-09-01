@@ -34,6 +34,7 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
     logger.info(`Logged in as ${client.user.tag}!`);
+    appTools.loadRoleReactInteraction(client)
 });
 
 client.on('interactionCreate', async interaction => {
@@ -57,11 +58,14 @@ client.on('interactionCreate', async interaction => {
 //Gestion des erreurs
 client.on('error', (error) => {
     logger.error('Une erreur s\'est produite :', error);
+    console.log(error);
 });
 
 // Gestion des erreurs de promesse non gérée
 process.on('unhandledRejection', error => {
     logger.error('Rejet de promesse non géré :', error);
+    console.log(error);
+    
 });
 
 client.login(process.env.DISCORD_TOKEN);
