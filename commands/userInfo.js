@@ -29,16 +29,18 @@ module.exports = {
             );
         let row = null;
         const userBanner = await user.fetch().then(u => u.bannerURL({ dynamic: true, size: 1024 }));
+        const avatarCustomId = `show_avatar_${appTools.GenerateUuid()}`;
+        const bannerCustomId = `show_banner_${appTools.GenerateUuid()}`;
         if(userBanner) {
             row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                        .setCustomId('show_avatar')
+                        .setCustomId(avatarCustomId)
                         .setLabel('Afficher l\'avatar de l\'utilisateur')
                         .setStyle(ButtonStyle.Primary),
 
                     new ButtonBuilder()
-                        .setCustomId('show_banner')
+                        .setCustomId(bannerCustomId)
                         .setLabel('Afficher la bannière')
                         .setStyle(ButtonStyle.Primary)
                 )
@@ -46,26 +48,27 @@ module.exports = {
             row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                        .setCustomId('show_avatar')
+                        .setCustomId(avatarCustomId)
                         .setLabel('Afficher l\'avatar de l\'utilisateur')
                         .setStyle(ButtonStyle.Primary)
                 )
         }
         await interaction.reply({ embeds: [embed], components: [row], ephemeral : true });
 
-        const filter = i => i.customId === 'show_avatar' || i.customId === 'show_banner';
-        const collector = interaction.channel.createMessageComponentCollector({ filter, time: 15000 });
+        const filter = i => i.customId === avatarCustomId || i.customId === bannerCustomId;
+        const collector = interaction.channel.createMessageComponentCollector({filter});
 
         collector.on('collect', async i => {
             const date = Date.now()
             const logger = appTools.CreateLogger();
-            logger.info(`Interaction started\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
-            if(i.customId === 'show_avatar') {
+            logger.info(`interaction started, User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
+            if(i.customId.includes('show_avatar')) {
                 await i.reply({ content: user.displayAvatarURL({ dynamic: true, size: 1024 }), ephemeral : true});
-            }else if (i.customId === 'show_banner') {
+            }else if (i.customId.includes('show_banner')) {
                 await i.reply({ content: userBanner, ephemeral : true});
             }
-            logger.info(`interaction ended\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}], took ${Date.now() - date}ms`);
+            const loggerLvl = Date.now() - date < 1000 ? logger.info : logger.warn
+            loggerLvl(`interaction ended, User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}], took ${Date.now() - date}ms`);
         })
 
     },

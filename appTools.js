@@ -3,6 +3,7 @@ const path = require('path');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
 const winston = require('winston');
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 
@@ -114,6 +115,13 @@ function DeployCommands(){
 
 }
 
+function GenerateUuid(){
+    const uuid = uuidv4()
+    logger = CreateLogger()
+    logger.info("uuid générée : "+uuid)
+    return uuid
+}
+
 function SaveInteraction(path,dataToSave){
     let data = [];
 
@@ -192,4 +200,4 @@ function CreateLogger(){
     return logger;
 }
 
-module.exports = { DeployCommands ,CreateLogger ,DeployServerCommands ,DeleteAllCommands,SaveInteraction,loadRoleReactInteraction };
+module.exports = { DeployCommands ,CreateLogger ,DeployServerCommands ,DeleteAllCommands,SaveInteraction,loadRoleReactInteraction,GenerateUuid };
