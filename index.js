@@ -46,9 +46,9 @@ client.on('interactionCreate', async interaction => {
 
     try {
         const date = Date.now();
-        logger.info(`Interaction started\n  -User: ${interaction.user.tag} (${interaction.commandName})`);
+        logger.info(`interaction started, User: ${interaction.user.tag} (${interaction.commandName})`);
         await command.execute(interaction);
-        logger.info(`Interaction ended\n  -User: ${interaction.user.tag} (${interaction.commandName}), took ${Date.now() - date}ms`);
+        logger.info(`interaction ended, User: ${interaction.user.tag} (${interaction.commandName}), took ${Date.now() - date}ms`);
     } catch (error) {
         logger.error(error);
         await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });

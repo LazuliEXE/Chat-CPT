@@ -10,25 +10,25 @@ module.exports = {
 
     async execute(interaction) {
         const value = interaction.options.getInteger('valeur') || 6;
-
+        const customId = `reroll_${appTools.GenerateUuid()}`
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId('reroll')
+                    .setCustomId(customId)
                     .setLabel('relancer le dé')
                     .setStyle(ButtonStyle.Primary),
             )
 
         await interaction.reply({ content: '', embeds: [CreateEmbed(interaction,value)], components: [row] });
-        const filter = i => i.customId === 'reroll';
+        const filter = i => i.customId === customId;
         const collector = interaction.channel.createMessageComponentCollector({filter});
         collector.on('collect', async i => {
             const date = Date.now()
             const logger = appTools.CreateLogger();
-            logger.info(`Interaction started\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
+            logger.info(`Interaction started, User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
             await interaction.editReply({ content: '', embeds: [CreateEmbed(interaction,value)], components: [row] });
             await i.deferUpdate();
-            logger.info(`interaction ended\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}], took ${Date.now() - date}ms`);
+            logger.info(`interaction ended, User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}], took ${Date.now() - date}ms`);
         })
     },
 };
