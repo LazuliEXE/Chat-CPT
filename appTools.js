@@ -120,6 +120,8 @@ function SaveInteraction(path,dataToSave){
     if (fs.existsSync(path)) {
         const fileData = fs.readFileSync(path);
         data = JSON.parse(fileData);
+    }else if (!fs.existsSync('data')) {
+        fs.mkdirSync('data', { recursive: true });
     }
 
     data.push(dataToSave);
