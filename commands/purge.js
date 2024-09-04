@@ -17,7 +17,7 @@ module.exports = {
                 interaction.reply({embeds: [CreateEmbed(`${deleted.size} messages ont été supprimés`,interaction)],ephemeral:!visible})
                 })
             .catch(error =>{
-                logger = appTools.CreateLogger()
+                logger = new appTools.Logger
                 logger.error(error)
                 interaction.reply({embeds: [CreateEmbed(''+error,interaction)],ephemeral:true,})
             })

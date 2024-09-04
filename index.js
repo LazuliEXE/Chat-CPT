@@ -11,7 +11,7 @@ require('dotenv').config();
 //appTools.DeployCommands()
 appTools.DeployServerCommands()
 
-const logger = appTools.CreateLogger()
+const logger = new appTools.Logger()
 
 
 const client = new Client({
@@ -33,7 +33,7 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-    logger.info(`Logged in as ${client.user.tag}!`);
+    logger.info(`Le client s'est correctement connecté`,{client:client.user.tag,clientID:client.user.id});
     appTools.loadRoleReactInteraction(client)
 });
 
@@ -46,9 +46,13 @@ client.on('interactionCreate', async interaction => {
 
     try {
         const date = Date.now();
-        logger.info(`Interaction started\n  -User: ${interaction.user.tag} (${interaction.commandName})`);
+        logger.info(`Interaction started`,{User:interaction.user.tag, commandName:interaction.commandName});
         await command.execute(interaction);
-        logger.info(`Interaction ended\n  -User: ${interaction.user.tag} (${interaction.commandName}), took ${Date.now() - date}ms`);
+        if(Date.now() - date < 1000){
+            logger.info(`Interaction ended`,{User:interaction.user.tag, commandName:interaction.commandName, lattency:`${Date.now() - date}ms`});
+        }else{
+            logger.warn(`Interaction ended`,{User:interaction.user.tag, commandName:interaction.commandName, lattency:`${Date.now() - date}ms`});
+        }
     } catch (error) {
         logger.error(error);
         await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -57,13 +61,13 @@ client.on('interactionCreate', async interaction => {
 
 //Gestion des erreurs
 client.on('error', (error) => {
-    logger.error('Une erreur s\'est produite :', error);
+    logger.error('Une erreur s\'est produite', {error:error});
     console.log(error);
 });
 
 // Gestion des erreurs de promesse non gérée
 process.on('unhandledRejection', error => {
-    logger.error('Rejet de promesse non géré :', error);
+    logger.error('Rejet de promesse non géré', {error:error});
     console.log(error);
     
 });

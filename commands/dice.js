@@ -24,7 +24,7 @@ module.exports = {
         const collector = interaction.channel.createMessageComponentCollector({filter});
         collector.on('collect', async i => {
             const date = Date.now()
-            const logger = appTools.CreateLogger();
+            const logger = new appTools.Logger()
             logger.info(`Interaction started\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
             await interaction.editReply({ content: '', embeds: [CreateEmbed(interaction,value)], components: [row] });
             await i.deferUpdate();

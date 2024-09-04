@@ -2,9 +2,101 @@ const fs = require('fs');
 const path = require('path');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
-const winston = require('winston');
 require('dotenv').config();
 
+class Colors {
+    static Reset = "\x1b[0m"
+    static Bright = "\x1b[1m"
+    static Dim = "\x1b[2m"
+    static Underscore = "\x1b[4m"
+    static Blink = "\x1b[5m"
+    static Reverse = "\x1b[7m"
+    static Hidden = "\x1b[8m"
+    
+    static FgBlack = "\x1b[30m"
+    static FgRed = "\x1b[31m"
+    static FgGreen = "\x1b[32m"
+    static FgYellow = "\x1b[33m"
+    static FgBlue = "\x1b[34m"
+    static FgMagenta = "\x1b[35m"
+    static FgCyan = "\x1b[36m"
+    static FgWhite = "\x1b[37m"
+    static FgGray = "\x1b[90m"
+    
+    static BgBlack = "\x1b[40m"
+    static BgRed = "\x1b[41m"
+    static BgGreen = "\x1b[42m"
+    static BgYellow = "\x1b[43m"
+    static BgBlue = "\x1b[44m"
+    static BgMagenta = "\x1b[45m"
+    static BgCyan = "\x1b[46m"
+    static BgWhite = "\x1b[47m"
+    static BgGray = "\x1b[100m"
+}
+
+class Logger {
+    constructor(){
+        this.levels = {
+            info: {
+                value: 'info',
+                color: Colors.FgGreen,
+                path: null
+            },
+            warn:  {
+                value: 'warning',
+                color: Colors.FgYellow,
+                path: './logs/warn.log'
+            },
+            error: {
+                value: 'error',
+                color: Colors.FgRed,
+                path: './logs/error.log'
+            },
+        };
+    };
+
+    SaveToLogFolder(path,data){
+        let readData = [];
+
+        if (fs.existsSync(path)) {
+            const fileData = fs.readFileSync(path);
+            readData = JSON.parse(fileData);
+        }
+
+        readData.push(data);
+
+        fs.writeFileSync(path, JSON.stringify(readData, null, 2));
+    }
+
+    log(level,message,data = {}){
+        const timestamp = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+        const logMessage = {
+            timestamp,
+            level: this.levels[level].value,
+            message,
+            data
+        }
+        console.log(timestamp,this.levels[level].color,this.levels[level].value,Colors.Reset,message + JSON.stringify(data))
+
+        const path = this.levels[level].path;
+
+        if(path){
+            this.SaveToLogFolder(path,logMessage);
+        }
+        this.SaveToLogFolder("./logs/combined.log",logMessage);
+    }
+
+    info(message,data = {}){
+        this.log("info",message,data);
+    }
+    warn(message,data = {}){
+        this.log("warn",message,data);
+    }
+    error(message,data = {}){
+        this.log("error",message,data);
+    }
+    
+}
 
 function DeleteAllCommands(){
     const { CLIENT_ID, GUILD_ID, DISCORD_TOKEN } = process.env;
@@ -24,7 +116,7 @@ function DeployServerCommands(){
 
     const { CLIENT_ID, GUILD_ID, DISCORD_TOKEN } = process.env;
 
-    const logger = CreateLogger();
+    const logger = new Logger();
     const commands = [];
     const commandsPath = path.join(__dirname, 'commands');
     const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -39,7 +131,7 @@ function DeployServerCommands(){
             if (stats.isDirectory()) {
                 loadCommands(fullPath);
             } else if (file.endsWith('.js')) {
-                logger.info(`Reading command data: ${file}`);
+                logger.info(`Reading command data,`,{path:fullPath});
                 const command = require(fullPath);
                 commands.push(command.data.toJSON());
             }
@@ -70,8 +162,7 @@ function DeployServerCommands(){
 function DeployCommands(){
 
     const { CLIENT_ID, DISCORD_TOKEN } = process.env;
-
-    const logger = CreateLogger();
+    const logger = new Logger
     const commands = [];
     const commandsPath = path.join(__dirname, 'commands');
     const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -86,7 +177,7 @@ function DeployCommands(){
             if (stats.isDirectory()) {
                 loadCommands(fullPath);
             } else if (file.endsWith('.js')) {
-                logger.info(`Reading command data: ${file}`);
+                logger.info(`Reading command data,`,{path:fullPath});
                 const command = require(fullPath);
                 commands.push(command.data.toJSON());
             }
@@ -166,30 +257,4 @@ async function loadRoleReactInteraction(client){
 
 }
 
-function CreateLogger(){
-
-    const logger = winston.createLogger({
-        level: 'info',
-        format: winston.format.combine(
-            winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-            winston.format.printf(({ timestamp, level, message }) => `${timestamp} ${level}: ${message}`)
-        ),
-        transports: [
-            new winston.transports.File({ filename: 'logs/combined.log', level: 'info' }),
-                      
-            new winston.transports.File({ filename: 'logs/errors.log', level: 'error' }),
-    
-            new winston.transports.Console({
-                format: winston.format.combine(
-                    winston.format.colorize(),
-                    winston.format.simple(),
-                    winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
-
-                )
-            })
-        ]
-    });
-    return logger;
-}
-
-module.exports = { DeployCommands ,CreateLogger ,DeployServerCommands ,DeleteAllCommands,SaveInteraction,loadRoleReactInteraction };
+module.exports = { DeployCommands ,DeployServerCommands ,DeleteAllCommands,SaveInteraction,loadRoleReactInteraction,Logger };

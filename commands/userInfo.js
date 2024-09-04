@@ -58,7 +58,7 @@ module.exports = {
 
         collector.on('collect', async i => {
             const date = Date.now()
-            const logger = appTools.CreateLogger();
+            const logger = new appTools.Logger();
             logger.info(`Interaction started\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
             if(i.customId === 'show_avatar') {
                 await i.reply({ content: user.displayAvatarURL({ dynamic: true, size: 1024 }), ephemeral : true});
