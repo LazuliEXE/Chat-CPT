@@ -45,6 +45,8 @@ module.exports = {
         const filter = i => i.customId === configCustomId && i.member.id === interaction.member.id;
         const roleCollector = interaction.channel.createMessageComponentCollector({filter});
         roleCollector.on('collect', async i => {
+            const date = Date.now()
+            appTools.LogInteractionEvent(i,interaction)
             const roles = i.values
             let replyRow
             let count = 0
@@ -117,9 +119,13 @@ module.exports = {
             appTools.SaveInteraction('data/roleReact.json',dataToSave)
             
             const filter = i => i.customId === msgCustimId;
+            appTools.LogInteractionEvent(i,interaction,Date.now() - date)
             const roleCollector = channel.createMessageComponentCollector({filter});
             roleCollector.on('collect', async i => {
                 i.deferUpdate()
+                const date = Date.now()
+                appTools.LogInteractionEvent(i,interaction)
+
 
                 for (const roleId of roles){
                     const role = interaction.guild.roles.cache.get(roleId);
@@ -138,6 +144,8 @@ module.exports = {
                         }
                     }
                 }
+                appTools.LogInteractionEvent(i,interaction,Date.now() - date)
+
             })
         });
     },

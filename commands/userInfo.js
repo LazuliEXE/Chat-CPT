@@ -60,15 +60,14 @@ module.exports = {
 
         collector.on('collect', async i => {
             const date = Date.now()
-            const logger = appTools.CreateLogger();
-            logger.info(`interaction started, User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
+            const logger = new appTools.Logger();
+            appTools.LogInteractionEvent(i,interaction)
             if(i.customId.includes('show_avatar')) {
                 await i.reply({ content: user.displayAvatarURL({ dynamic: true, size: 1024 }), ephemeral : true});
             }else if (i.customId.includes('show_banner')) {
                 await i.reply({ content: userBanner, ephemeral : true});
             }
-            const loggerLvl = Date.now() - date < 1000 ? logger.info : logger.warn
-            loggerLvl(`interaction ended, User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}], took ${Date.now() - date}ms`);
+            appTools.LogInteractionEvent(i,interaction,Date.now() - date)
         })
 
     },

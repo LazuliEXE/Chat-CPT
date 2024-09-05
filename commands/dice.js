@@ -24,11 +24,12 @@ module.exports = {
         const collector = interaction.channel.createMessageComponentCollector({filter});
         collector.on('collect', async i => {
             const date = Date.now()
-            const logger = appTools.CreateLogger();
-            logger.info(`Interaction started, User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
+            const logger = new appTools.Logger()
+            appTools.LogInteractionEvent(i,interaction)
             await interaction.editReply({ content: '', embeds: [CreateEmbed(interaction,value)], components: [row] });
             await i.deferUpdate();
-            logger.info(`interaction ended, User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}], took ${Date.now() - date}ms`);
+            appTools.LogInteractionEvent(i,interaction,Date.now() - date)
+
         })
     },
 };
