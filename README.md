@@ -24,7 +24,13 @@ Ce projet est un bot Discord développé en JavaScript utilisant la bibliothèqu
    ```
 2. Créez et configurez une nouvelle application sur [le portail développeur de discord](https://discord.com/developers/applications)
 
-3. Remplaçer les informations présente dans le fichier .env avec les vôtres
+3. Créez un fichier .env dans la racine du projet et mettez y le code suivant et remplacez les informations par les vôtres
+   ```env
+   DISCORD_TOKEN=TOKEN_BOT
+   CLIENT_ID=CLIENT_ID_BOT
+   GUILD_ID=TEST_SERVER_ID_BOT
+   ```
+
 
 ## Utilisation
 

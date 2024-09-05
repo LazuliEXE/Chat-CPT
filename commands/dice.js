@@ -10,17 +10,17 @@ module.exports = {
 
     async execute(interaction) {
         const value = interaction.options.getInteger('valeur') || 6;
-
+        const customId = `reroll_${appTools.GenerateUuid()}`
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId('reroll')
+                    .setCustomId(customId)
                     .setLabel('relancer le dé')
                     .setStyle(ButtonStyle.Primary),
             )
 
         await interaction.reply({ content: '', embeds: [CreateEmbed(interaction,value)], components: [row] });
-        const filter = i => i.customId === 'reroll';
+        const filter = i => i.customId === customId;
         const collector = interaction.channel.createMessageComponentCollector({filter});
         collector.on('collect', async i => {
             const date = Date.now()
@@ -29,6 +29,7 @@ module.exports = {
             await interaction.editReply({ content: '', embeds: [CreateEmbed(interaction,value)], components: [row] });
             await i.deferUpdate();
             appTools.LogInteractionEvent(i,interaction,Date.now() - date)
+
         })
     },
 };

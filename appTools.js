@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v10');
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 class Colors {
@@ -217,6 +218,13 @@ function LogInteractionEvent(i,interaction,lattency = null){
     }else{
         logger.info(`Interaction started`,{User:interaction.user.tag, commandName:interaction.commandName, interactionCustomID:i.customId});
     }
+}
+
+function GenerateUuid(){
+    const uuid = uuidv4()
+    logger = CreateLogger()
+    logger.info("uuid générée : "+uuid)
+    return uuid
 }
 
 function SaveInteraction(path,dataToSave){

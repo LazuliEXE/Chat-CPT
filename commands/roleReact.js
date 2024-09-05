@@ -21,10 +21,11 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: 'rôle react',iconURL:interaction.client.user.displayAvatarURL()});
 
+        const configCustomId = `roleSelection_${appTools.GenerateUuid()}`
         const row = new ActionRowBuilder()
             .addComponents(
                 new RoleSelectMenuBuilder()
-                    .setCustomId('roles')
+                    .setCustomId(configCustomId)
                     .setPlaceholder('Sélectionnez des options')
                     .setMinValues(2)
                     .setMaxValues(10),
@@ -41,7 +42,7 @@ module.exports = {
         //    }
         //}, 60000); // 60000 ms = 1 minute
 
-        const filter = i => i.customId === 'roles' && i.member.id === interaction.member.id;
+        const filter = i => i.customId === configCustomId && i.member.id === interaction.member.id;
         const roleCollector = interaction.channel.createMessageComponentCollector({filter});
         roleCollector.on('collect', async i => {
             const date = Date.now()
@@ -108,15 +109,16 @@ module.exports = {
                 publicMessage = await channel.send({ content: '', embeds: [embed],components:[replyRow]})
             }
             await i.deferUpdate()
+            const msgCustimId = `roles_${appTools.GenerateUuid()}`
             const dataToSave = {
                 channelId: channel.id,
-                customId: 'rôles',
+                customId: msgCustimId,
                 roles: i.values,
                 multiple: multiple
             };
             appTools.SaveInteraction('data/roleReact.json',dataToSave)
             
-            const filter = i => i.customId === 'rôles';
+            const filter = i => i.customId === msgCustimId;
             appTools.LogInteractionEvent(i,interaction,Date.now() - date)
             const roleCollector = channel.createMessageComponentCollector({filter});
             roleCollector.on('collect', async i => {
