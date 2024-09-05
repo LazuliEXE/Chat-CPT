@@ -25,10 +25,10 @@ module.exports = {
         collector.on('collect', async i => {
             const date = Date.now()
             const logger = new appTools.Logger()
-            logger.info(`Interaction started\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
+            appTools.LogInteractionEvent(i,interaction)
             await interaction.editReply({ content: '', embeds: [CreateEmbed(interaction,value)], components: [row] });
             await i.deferUpdate();
-            logger.info(`interaction ended\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}], took ${Date.now() - date}ms`);
+            appTools.LogInteractionEvent(i,interaction,Date.now() - date)
         })
     },
 };

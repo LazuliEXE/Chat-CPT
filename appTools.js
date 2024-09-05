@@ -202,7 +202,21 @@ function DeployCommands(){
             logger.error(error);
         }
     })();
+}
 
+function LogInteractionEvent(i,interaction,lattency = null){
+    const logger = new Logger
+    if(lattency)
+    {
+        if(lattency < 1000){
+            logger.info(`Interaction ended`,{User:interaction.user.tag, commandName:interaction.commandName, interactionCustomID:i.customId, lattency:`${lattency}ms`});
+        }else{
+            logger.warn(`Interaction ended`,{User:interaction.user.tag, commandName:interaction.commandName, interactionCustomID:i.customId, lattency:`${lattency}ms`});
+        }
+
+    }else{
+        logger.info(`Interaction started`,{User:interaction.user.tag, commandName:interaction.commandName, interactionCustomID:i.customId});
+    }
 }
 
 function SaveInteraction(path,dataToSave){
@@ -257,4 +271,4 @@ async function loadRoleReactInteraction(client){
 
 }
 
-module.exports = { DeployCommands ,DeployServerCommands ,DeleteAllCommands,SaveInteraction,loadRoleReactInteraction,Logger };
+module.exports = { DeployCommands ,DeployServerCommands ,DeleteAllCommands,SaveInteraction,loadRoleReactInteraction,Logger,LogInteractionEvent };

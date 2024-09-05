@@ -59,13 +59,13 @@ module.exports = {
         collector.on('collect', async i => {
             const date = Date.now()
             const logger = new appTools.Logger();
-            logger.info(`Interaction started\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}]`);
+            appTools.LogInteractionEvent(i,interaction)
             if(i.customId === 'show_avatar') {
                 await i.reply({ content: user.displayAvatarURL({ dynamic: true, size: 1024 }), ephemeral : true});
             }else if (i.customId === 'show_banner') {
                 await i.reply({ content: userBanner, ephemeral : true});
             }
-            logger.info(`interaction ended\n  -User: ${interaction.user.tag} (${interaction.commandName})[${i.customId}], took ${Date.now() - date}ms`);
+            appTools.LogInteractionEvent(i,interaction,Date.now() - date)
         })
 
     },
